@@ -11,7 +11,14 @@ import org.springframework.stereotype.Service;
 public class Parser {
 
     public String html2text(String html) {
-        return Jsoup.clean(html, Whitelist.simpleText()).replace("&nbsp;", " ");
+        return Jsoup.clean(html, Whitelist
+                        .simpleText()
+                        .addTags("a")
+                        .addAttributes("a", "href", "title")
+        )
+                .replace("&nbsp;", " ")
+                .replace("\n", " ")
+                .replace("  ", " ");
     }
 
 }
