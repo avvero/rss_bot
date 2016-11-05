@@ -29,7 +29,7 @@ public class CommonRoutes extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("activemq:rss-test")
+        from("activemq:rss")
                 .setHeader("Content-Type", constant("application/json; charset=utf-8"))
                 .unmarshal().json(JsonLibrary.Jackson, Event.class)
                 .to("bean:commonRoutes?method=map")
