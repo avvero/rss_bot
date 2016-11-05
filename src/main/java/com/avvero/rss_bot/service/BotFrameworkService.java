@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,6 +41,7 @@ public class BotFrameworkService {
                 message.getChannelId(), message.getConversation().getId());
 
         RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
         interceptors.add(new LoggingClientHttpRequestInterceptor());
         restTemplate.setInterceptors(interceptors );
@@ -50,6 +54,7 @@ public class BotFrameworkService {
         return new HttpHeaders() {
             {
                 set("Authorization", "Bearer " + token);
+                set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             }
         };
     }
