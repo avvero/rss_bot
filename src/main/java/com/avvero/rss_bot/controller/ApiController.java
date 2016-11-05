@@ -29,8 +29,9 @@ public class ApiController {
         log.info(message.toString());
 
         if ("message".equals(message.getType())) {
-            ConversationMessage response = commandService.process(message);
-            botFrameworkService.send(response);
+
+//            ConversationMessage response = commandService.process(message);
+//            botFrameworkService.send(response);
         } else if ("conversationUpdate".equals(message.getType())) {
             ConversationMessage echo = new ConversationMessage();
             echo.setChannelId(message.getChannelId());
