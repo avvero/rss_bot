@@ -4,6 +4,7 @@ import com.avvero.rss_bot.domain.Event;
 import com.avvero.rss_bot.entity.bf.ChannelAccount;
 import com.avvero.rss_bot.entity.bf.ConversationAccount;
 import com.avvero.rss_bot.entity.bf.ConversationMessage;
+import com.avvero.rss_bot.service.Parser;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
@@ -23,10 +24,12 @@ public class CommonRoutes extends RouteBuilder {
     private JacksonDataFormat jsonFormat;
     @Value("#{'${rss_bot.conversations}'.split(',')}")
     private List<String> conversations;
+    @Autowired
+    private Parser parser;
 
     @Override
     public void configure() throws Exception {
-        from("activemq:rss")
+        from("activemq:rss-test")
                 .setHeader("Content-Type", constant("application/json; charset=utf-8"))
                 .unmarshal().json(JsonLibrary.Jackson, Event.class)
                 .to("bean:commonRoutes?method=map")
@@ -38,7 +41,7 @@ public class CommonRoutes extends RouteBuilder {
         echo.setChannelId("skype");
         echo.setConversation(new ConversationAccount(null, conversations.get(0), null));
         echo.setType("message");
-        echo.setText(event.getItem().getDescription());
+        echo.setText(parser.html2text(event.getItem().getDescription()));
         return echo;
     }
 
