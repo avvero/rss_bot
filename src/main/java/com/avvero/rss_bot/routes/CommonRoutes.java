@@ -16,16 +16,10 @@ public class CommonRoutes extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:push-event")
-                .setHeader("Content-Type", constant("application/json; charset=utf-8"))
-                .marshal(jsonFormat)
-                .log("${body}")
-                .to("activemq:rss");
-
         from("activemq:rss")
                 .setHeader("Content-Type", constant("application/json; charset=utf-8"))
                 .unmarshal(jsonFormat)
-                .to("bean:events-handle?method=processEvent");
+                .to("bean:rssConsumer?method=receive");
     }
 
 }
