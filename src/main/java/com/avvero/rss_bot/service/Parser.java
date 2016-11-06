@@ -13,8 +13,8 @@ public class Parser {
     public String html2text(String html) {
         return Jsoup.clean(html, Whitelist
                         .simpleText()
-                        .addTags("a")
-                        .addAttributes("a", "href", "title")
+//                        .addTags("a")
+//                        .addAttributes("a", "href", "title")
         )
                 .replace("&nbsp;", " ")
                 .replace("\n", " ")

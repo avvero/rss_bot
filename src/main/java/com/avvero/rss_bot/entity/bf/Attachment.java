@@ -2,8 +2,6 @@ package com.avvero.rss_bot.entity.bf;
 
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * @author fxdev-belyaev-ay
  */
@@ -15,6 +13,6 @@ public class Attachment {
     private String thumbnailUrl;
     private String filename;
     private String name;
-    private List<AttachmentEntry> content;
+    private AttachmentEntry content;
 
 }
