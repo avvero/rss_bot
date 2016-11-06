@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +31,8 @@ public class CommonRoutes extends RouteBuilder {
     private UrlShortener urlShortener;
     @Value("${rss_bot.queue_name}")
     private String queueName;
+    @Value("${rss_bot.view}")
+    private String view;
 
 
     @Override
@@ -47,18 +48,21 @@ public class CommonRoutes extends RouteBuilder {
         ConversationMessage echo = new ConversationMessage();
         echo.setChannelId("skype");
         echo.setConversation(new ConversationAccount(null, conversations.get(0), null));
-        echo.setType("message/card.carousel");
-        Attachment attachment = new Attachment();
-        echo.setAttachments(Arrays.asList(attachment));
+        if ("card".equals(view)) {
+            echo.setType("message/card.carousel");
+            Attachment attachment = new Attachment();
+            echo.setAttachments(Arrays.asList(attachment));
 
-        attachment.setContentType("application/vnd.microsoft.card.hero");
-        AttachmentEntry attachmentEntry = new AttachmentEntry();
-        attachmentEntry.setTitle(event.getItem().getTitle());
-        attachmentEntry.setText(parser.html2text(event.getItem().getDescription()));
-        attachmentEntry.setButtons(Arrays.asList(new Button("openUrl", "На сайт", urlShortener.make(event.getItem().getLink()))));
-//        attachmentEntry.setImages(Arrays.asList(new Image(event.getItem().)));
-        attachment.setContent(attachmentEntry);
-
+            attachment.setContentType("application/vnd.microsoft.card.hero");
+            AttachmentEntry attachmentEntry = new AttachmentEntry();
+            attachmentEntry.setTitle(event.getItem().getTitle());
+            attachmentEntry.setText(parser.html2text(event.getItem().getDescription()));
+            attachmentEntry.setButtons(Arrays.asList(new Button("openUrl", "На сайт", urlShortener.make(event.getItem().getLink()))));
+            attachment.setContent(attachmentEntry);
+        } else {
+            echo.setType("message");
+            echo.setText(event.getItem().getTitle() + " <a href='" + urlShortener.make(event.getItem().getLink()) + "'>На сайт</a>");
+        }
         return echo;
     }
 
