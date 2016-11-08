@@ -1,5 +1,6 @@
 package com.avvero.rss_bot.dto.bf;
 
+import com.avvero.rss_bot.utils.LocalDateTimeStringDeserialize;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -24,7 +25,7 @@ public class ConversationMessage {
     private String locale;
     private String summary;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonDeserialize(using = LocalDateTimeStringDeserialize.class)
     private LocalDateTime timestamp;
     private String serviceUrl;
     private String channelId;
