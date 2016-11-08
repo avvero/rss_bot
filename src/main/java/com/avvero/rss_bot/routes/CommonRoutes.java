@@ -9,6 +9,7 @@ import com.avvero.rss_bot.service.UrlShortener;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -79,7 +80,7 @@ public class CommonRoutes extends RouteBuilder {
     public Message map (ConversationMessage conversationMessage) {
         return new Message(
                 conversationMessage.getId(),
-                conversationMessage.getText(),
+                parser.html2text(conversationMessage.getText(), Whitelist.none()),
                 conversationMessage.getTimestamp(),
                 conversationMessage.getChannelId(),
                 conversationMessage.getConversation().getId(),

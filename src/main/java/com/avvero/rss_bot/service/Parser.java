@@ -20,5 +20,8 @@ public class Parser {
                 .replace("\n", " ")
                 .replace("  ", " ");
     }
+    public String html2text(String html, Whitelist whitelist) {
+        return Jsoup.clean(html, whitelist);
+    }
 
 }
