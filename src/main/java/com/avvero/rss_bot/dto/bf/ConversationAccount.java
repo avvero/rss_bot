@@ -1,4 +1,4 @@
-package com.avvero.rss_bot.entity.bf;
+package com.avvero.rss_bot.dto.bf;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChannelAccount {
+public class ConversationAccount {
 
+    private Boolean isGroup;
     private String id;
     private String name;
 

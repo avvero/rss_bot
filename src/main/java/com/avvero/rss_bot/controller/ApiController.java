@@ -1,6 +1,6 @@
 package com.avvero.rss_bot.controller;
 
-import com.avvero.rss_bot.entity.bf.ConversationMessage;
+import com.avvero.rss_bot.dto.bf.ConversationMessage;
 import com.avvero.rss_bot.service.BotFrameworkService;
 import com.avvero.rss_bot.service.CommandService;
 import lombok.extern.slf4j.Slf4j;

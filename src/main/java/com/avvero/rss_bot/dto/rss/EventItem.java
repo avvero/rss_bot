@@ -1,4 +1,4 @@
-package com.avvero.rss_bot.domain;
+package com.avvero.rss_bot.dto.rss;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

@@ -1,6 +1,6 @@
 package com.avvero.rss_bot.service;
 
-import com.avvero.rss_bot.entity.bf.ConversationMessage;
+import com.avvero.rss_bot.dto.bf.ConversationMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.avvero.rss_bot.entity.bf;
+package com.avvero.rss_bot.dto.bf;
 
 import lombok.Data;
 

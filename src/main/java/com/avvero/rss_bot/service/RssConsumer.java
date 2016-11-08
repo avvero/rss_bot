@@ -1,6 +1,6 @@
 package com.avvero.rss_bot.service;
 
-import com.avvero.rss_bot.domain.Event;
+import com.avvero.rss_bot.dto.rss.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

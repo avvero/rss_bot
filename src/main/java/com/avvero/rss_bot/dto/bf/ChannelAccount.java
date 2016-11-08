@@ -1,4 +1,4 @@
-package com.avvero.rss_bot.entity.bf;
+package com.avvero.rss_bot.dto.bf;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
  * @author fxdev-belyaev-ay
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Image {
+@NoArgsConstructor
+public class ChannelAccount {
 
-    private String url;
-    private String alt;
+    private String id;
+    private String name;
 
 }

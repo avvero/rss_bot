@@ -1,4 +1,4 @@
-package com.avvero.rss_bot.entity.bf;
+package com.avvero.rss_bot.dto.bf;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Button {
+public class Image {
 
-    private String type;
-    private String title;
-    private String value;
+    private String url;
+    private String alt;
 
 }

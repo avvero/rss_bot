@@ -1,7 +1,9 @@
 package com.avvero.rss_bot.routes;
 
-import com.avvero.rss_bot.domain.Event;
-import com.avvero.rss_bot.entity.bf.*;
+import com.avvero.rss_bot.dto.bf.*;
+import com.avvero.rss_bot.dto.data.Account;
+import com.avvero.rss_bot.dto.data.Message;
+import com.avvero.rss_bot.dto.rss.Event;
 import com.avvero.rss_bot.service.Parser;
 import com.avvero.rss_bot.service.UrlShortener;
 import org.apache.camel.builder.RouteBuilder;
@@ -47,8 +49,8 @@ public class CommonRoutes extends RouteBuilder {
 
         from("direct:push-conversation-message")
                 .setHeader("Content-Type", constant("application/json; charset=utf-8"))
+                .to("bean:commonRoutes?method=map")
                 .marshal(jsonFormat)
-//                .log("${body}")
                 .to("activemq:" + conversationQueueName);
     }
 
@@ -72,6 +74,17 @@ public class CommonRoutes extends RouteBuilder {
             echo.setText(event.getItem().getTitle() + " <a href='" + urlShortener.make(event.getItem().getLink()) + "'>На сайт</a>");
         }
         return echo;
+    }
+
+    public Message map (ConversationMessage conversationMessage) {
+        return new Message(
+                conversationMessage.getId(),
+                conversationMessage.getText(),
+                conversationMessage.getTimestamp(),
+                conversationMessage.getChannelId(),
+                conversationMessage.getConversation().getId(),
+                new Account(conversationMessage.getFrom().getId(), conversationMessage.getFrom().getName()),
+                new Account(conversationMessage.getRecipient().getId(), conversationMessage.getRecipient().getName()));
     }
 
 }
