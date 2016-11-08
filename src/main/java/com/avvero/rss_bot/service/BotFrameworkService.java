@@ -3,6 +3,7 @@ package com.avvero.rss_bot.service;
 import com.avvero.rss_bot.config.LoggingClientHttpRequestInterceptor;
 import com.avvero.rss_bot.entity.bf.ConversationMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.camel.ProducerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -30,6 +31,7 @@ public class BotFrameworkService {
 
     @Autowired
     private Environment env;
+
 
     public void send(ConversationMessage message) {
         send(msOAuthService.token().getAccess_token(), message);

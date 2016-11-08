@@ -29,19 +29,27 @@ public class CommonRoutes extends RouteBuilder {
     private Parser parser;
     @Autowired
     private UrlShortener urlShortener;
-    @Value("${rss_bot.queue_name}")
-    private String queueName;
+    @Value("${rss_bot.queue_name_rss}")
+    private String rssQueueName;
+    @Value("${rss_bot.queue_name_conversation}")
+    private String conversationQueueName;
     @Value("${rss_bot.view}")
     private String view;
 
 
     @Override
     public void configure() throws Exception {
-        from("activemq:" + queueName)
+        from("activemq:" + rssQueueName)
                 .setHeader("Content-Type", constant("application/json; charset=utf-8"))
                 .unmarshal().json(JsonLibrary.Jackson, Event.class)
                 .to("bean:commonRoutes?method=map")
                 .to("bean:botFrameworkService?method=send");
+
+        from("direct:push-conversation-message")
+                .setHeader("Content-Type", constant("application/json; charset=utf-8"))
+                .marshal(jsonFormat)
+//                .log("${body}")
+                .to("activemq:" + conversationQueueName);
     }
 
     public ConversationMessage map(Event event) throws UnsupportedEncodingException {

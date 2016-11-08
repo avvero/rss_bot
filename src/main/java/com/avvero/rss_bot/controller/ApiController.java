@@ -4,6 +4,7 @@ import com.avvero.rss_bot.entity.bf.ConversationMessage;
 import com.avvero.rss_bot.service.BotFrameworkService;
 import com.avvero.rss_bot.service.CommandService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.camel.ProducerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,16 +23,15 @@ public class ApiController {
     BotFrameworkService botFrameworkService;
     @Autowired
     CommandService commandService;
+    @Autowired
+    ProducerTemplate producerTemplate;
 
     @RequestMapping(value = "/endpoint", method = RequestMethod.POST)
     public void endpoint(@RequestBody ConversationMessage message) {
         log.info("ENDPOINT START");
         log.info(message.toString());
-
         if ("message".equals(message.getType())) {
-
-//            ConversationMessage response = commandService.process(message);
-//            botFrameworkService.send(response);
+            producerTemplate.sendBody("direct:push-conversation-message", message);
         } else if ("conversationUpdate".equals(message.getType())) {
             ConversationMessage echo = new ConversationMessage();
             echo.setChannelId(message.getChannelId());
