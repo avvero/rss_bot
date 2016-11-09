@@ -82,7 +82,7 @@ public class CommonRoutes extends RouteBuilder {
         //Цитирование, нужная правая часть
         String quotes = "&lt;&lt;&lt;";
         if (text.contains(quotes)) {
-            text = text.substring(text.indexOf(quotes) + quotes.length() + 1, text.length()-1);
+            text = text.substring(text.indexOf(quotes) + quotes.length() + 1, text.length());
         }
         return new Message(
                 conversationMessage.getId(),
