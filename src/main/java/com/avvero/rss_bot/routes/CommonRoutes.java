@@ -78,9 +78,15 @@ public class CommonRoutes extends RouteBuilder {
     }
 
     public Message map (ConversationMessage conversationMessage) {
+        String text = parser.html2text(conversationMessage.getText(), Whitelist.none());
+        //Цитирование, нужная правая часть
+        String quotes = "&lt;&lt;&lt;";
+        if (text.contains(quotes)) {
+            text = text.substring(text.indexOf(quotes) + quotes.length() + 1, text.length()-1);
+        }
         return new Message(
                 conversationMessage.getId(),
-                parser.html2text(conversationMessage.getText(), Whitelist.none()),
+                text,
                 conversationMessage.getTimestamp(),
                 conversationMessage.getChannelId(),
                 conversationMessage.getConversation().getId(),
